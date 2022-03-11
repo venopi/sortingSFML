@@ -112,35 +112,47 @@ int check(int * array, int size)
 
 		
 
-			if (array[i] > array[i + 1] && i != (size - 1)) 
-				return 0;									//sort fail
+		if (array[i] > array[i + 1] && i != (size - 1))
+		{
+			
+			return 0;									//sort fail
+		}
 
-			else if (i == (size - 1))
-				return 1;									//sort success
+		else if (i == (size - 1))
+		{
 
+			return 1;									//sort success
+		}
 	}
 
 }
 
 int main()
 {
+
 	srand(time(0));
+
+	int success = 0;
 
 	int* sorted_arr;
 
 	int size;
 
+	int checked = 0;
+
+	int temp = 0;
+
 	std::cout << "Wieviele Saeulen?" << std::endl;
 	std::cin >> size;
-	while (size <= 1 || size > 32500) 
+	while (size <= 1 || size > 32500)
 	{
 		std::cout << "Ungueltige Eingabe. Versuche eine Zahl zwischen 2 und 32500 zu waehlen!" << std::endl << std::endl;
 		std::cout << "Wieviele Saeulen?" << std::endl;
 		std::cin >> size;
 	}
 
-	int * arr = new int[size];
-	
+	int* arr = new int[size];
+
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = randomnumber();
@@ -150,23 +162,41 @@ int main()
 
 	sorted_arr = sort(arr, size);
 
-	printarray(sorted_arr, size); 
+	printarray(sorted_arr, size);
 
 	check(sorted_arr, size);
 
-	while (check(sorted_arr, size) == 0)
-	{
-		draw_bars(sorted_arr, size);
-
-		sort(sorted_arr, size);
-	}
-
-	std::cout << "Success" << std::endl;
-
 	while (window.isOpen())
 	{
+		
 
+			/// ///										while loop war voher in main
+	
+		if (checked != 1 && check(sorted_arr, size) == 0 )
+		{
 
+			sort(sorted_arr, size);
+
+			draw_bars(sorted_arr, size);
+		}
+
+		else if (temp > 10)
+		{
+			goto jmp;
+
+		}
+
+		else 
+		{
+			checked = 1;
+			std::cout << "Success" << std::endl;
+			temp = temp + 1;
+		}
+
+			
+			/// ///
+
+	jmp:
 
 		sf::Event evnt;
 		while (window.pollEvent(evnt))
@@ -188,9 +218,6 @@ int main()
 				}
 				
 			}
-
-
-
 
 
 		}
