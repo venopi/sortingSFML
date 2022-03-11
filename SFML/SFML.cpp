@@ -3,15 +3,15 @@
 #include <random>
 #include <ctime>
 
-int h = 512;
-int w = 512;
+int h = 700;
+int w = 1280;
 
-sf::RenderWindow window(sf::VideoMode(h, w), "SFML Test", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+sf::RenderWindow window(sf::VideoMode(w, h), "SFML Test", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
 
 int randomnumber()
 {
 
-	int randnum = rand() % 500 + 10;
+	int randnum = rand() % 700 + 10;
 
 	return randnum;
 }
@@ -28,18 +28,19 @@ void printarray(int * arr, int size)
 int draw_bars(int * arr, int size)
 {
 	printarray(arr, size);
+
 	//draw bars with random height. Height will be taken from an array of random numbers
 	
 	double barposh, barposw;
 	int barh, barw;
 
-	barw = 10;
+	barw = 3;
 
 	barposw = 5;
 	
 	int barnum = size;
 
-	int gap_between_bars = 5;
+	int gap_between_bars = 1;
 
 	window.clear(sf::Color::Black);
 
@@ -127,24 +128,37 @@ int main()
 
 	int* sorted_arr;
 
-	int arr[30];
+	int size;
+
+	std::cout << "Wieviele Saeulen?" << std::endl;
+	std::cin >> size;
+	while (size <= 1 || size > 32500) 
+	{
+		std::cout << "Ungueltige Eingabe. Versuche eine Zahl zwischen 2 und 32500 zu waehlen!" << std::endl << std::endl;
+		std::cout << "Wieviele Saeulen?" << std::endl;
+		std::cin >> size;
+	}
+
+	int * arr = new int[size];
 	
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < size; i++)
 	{
 		arr[i] = randomnumber();
 	}
 
-	draw_bars(arr, 30);
+	draw_bars(arr, size);
 
-	sorted_arr = sort(arr, 30);
+	sorted_arr = sort(arr, size);
 
-	printarray(sorted_arr, 30); 
+	printarray(sorted_arr, size); 
 
-	check(sorted_arr, 30);
+	check(sorted_arr, size);
 
-	while (check(sorted_arr, 30) == 0)
+	while (check(sorted_arr, size) == 0)
 	{
-		sort(sorted_arr, 30);
+		draw_bars(sorted_arr, size);
+
+		sort(sorted_arr, size);
 	}
 
 	std::cout << "Success" << std::endl;
@@ -170,7 +184,7 @@ int main()
 			case sf::Event::KeyPressed:
 				if (evnt.key.code == sf::Keyboard::S)
 				{
-					draw_bars(sorted_arr, 30);
+					draw_bars(sorted_arr, size);
 				}
 				
 			}
