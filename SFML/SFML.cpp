@@ -3,6 +3,7 @@
 #include <random>
 #include <ctime>
 
+
 int h = 700;
 int w = 1280;
 
@@ -34,7 +35,7 @@ int draw_bars(int * arr, int size)
 	double barposh, barposw;
 	int barh, barw;
 
-	barw = 3;
+	barw = 1;
 
 	barposw = 5;
 	
@@ -127,8 +128,29 @@ int check(int * array, int size)
 
 }
 
+
+int start()
+{
+
+
+	char start;
+	std::cout << "Start?  1 = ja | 0 = nein " << std::endl;
+	std::cin >> start;
+	if (start == '1')
+	{
+		return 1;
+	}
+	else if (start == '0')
+	{
+		return 0;
+	}
+
+}
+
+
 int main()
 {
+again:
 
 	srand(time(0));
 
@@ -151,6 +173,7 @@ int main()
 		std::cin >> size;
 	}
 
+
 	int* arr = new int[size];
 
 	for (int i = 0; i < size; i++)
@@ -159,6 +182,23 @@ int main()
 	}
 
 	draw_bars(arr, size);
+	
+	
+start:
+
+	int ans = start();
+
+	if (check == 0)
+	{
+		goto end;
+	}
+	else if (ans != 0 && ans  != 1)
+	{
+		goto start;
+	}
+
+
+
 
 	sorted_arr = sort(arr, size);
 
@@ -182,7 +222,16 @@ int main()
 
 		else if (temp > 10)
 		{
-			goto jmp;
+			char end_ans = 'a';
+			std::cout << "Nochmal? = a | " << "Ende? = e" << std::endl;
+			std::cin >> end_ans;
+
+			if (end_ans == 'a')
+			{
+				goto again;
+			}
+			else
+				goto end;
 
 		}
 
@@ -196,7 +245,7 @@ int main()
 			
 			/// ///
 
-	jmp:
+	//jmp:
 
 		sf::Event evnt;
 		while (window.pollEvent(evnt))
@@ -227,6 +276,7 @@ int main()
 	}
 
 
+end:
 
     return 0;
 }
